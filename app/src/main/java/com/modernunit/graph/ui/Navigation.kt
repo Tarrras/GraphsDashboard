@@ -16,21 +16,32 @@
 
 package com.modernunit.graph.ui
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.modernunit.graph.ui.screen.GraphsDashboard
+import com.modernunit.graph.ui.screen.GraphsViewModel
 
 @Composable
 fun MainNavigation() {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "main") {
-        composable("main") { Text(modifier = Modifier.padding(16.dp), text = "Hi") }
+        composable("main") {
+            val viewModel: GraphsViewModel = hiltViewModel()
+            val state by viewModel.uiState.collectAsState()
+            GraphsDashboard(
+                modifier = Modifier.fillMaxSize(),
+                state = state,
+                handleEvent = viewModel::handleEvent
+            )
+        }
         // TODO: Add more destinations
     }
 }

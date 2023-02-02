@@ -16,4 +16,10 @@
 
 <resources>
     <string name="app_name">GraphsDashboard</string>
+    <string name="graph_pie">Pie</string>
+    <string name="graph_line">Line</string>
+    <string name="graph_bar">Bar</string>
+    <string name="graph_column">Column</string>
+    <string name="graph_doughnut">Doughnut</string>
+    <string name="graph_area">Area</string>
 </resources>

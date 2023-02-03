@@ -22,6 +22,7 @@ import com.modernunit.graph.R
 import com.modernunit.graph.data.GraphsDataFactory
 import com.modernunit.graph.ui.model.GraphData
 import com.modernunit.graph.ui.theme.GraphsDashboardTheme
+import com.modernunit.graph.ui.util.configureAnimation
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -33,6 +34,7 @@ fun ArcChart(
     style: DrawStyle,
     outerMargin: Float = 0f
 ) {
+    val transitionAnimation = configureAnimation(chartData = chartData)
     val labelTextSize = LocalContext.current.resources
         .getDimensionPixelSize(R.dimen.label_size)
 
@@ -47,6 +49,8 @@ fun ArcChart(
             textAlign = Paint.Align.CENTER
             typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
         }
+    }.apply {
+        alpha = (255 * transitionAnimation.value).toInt()
     }
 
     val sumOfDataSet = remember(chartData) {
@@ -64,19 +68,23 @@ fun ArcChart(
         ) {
             val radius = size.width / 2
             var currentSegment = 0f
+            var currentStartAngle = 0f
             val totalAngle = 360
 
             chartData.forEach { chartData ->
                 val segmentAngle = totalAngle *
                         chartData.value / sumOfDataSet
+                val angleToDrawn =
+                    totalAngle * (chartData.value * transitionAnimation.value) / sumOfDataSet
                 drawArc(
                     color = chartData.color,
-                    startAngle = currentSegment,
-                    sweepAngle = segmentAngle.toFloat(),
+                    startAngle = currentStartAngle,
+                    sweepAngle = angleToDrawn,
                     useCenter = useCenter,
                     style = style
                 )
                 currentSegment += segmentAngle
+                currentStartAngle += angleToDrawn
 
                 drawIntoCanvas {
                     val medianAngle = (currentSegment - (segmentAngle / 2)) * Math.PI / 180f

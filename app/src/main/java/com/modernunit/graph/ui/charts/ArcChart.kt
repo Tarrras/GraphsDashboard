@@ -5,6 +5,8 @@ import android.graphics.Typeface
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -20,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.modernunit.graph.R
 import com.modernunit.graph.data.GraphsDataFactory
+import com.modernunit.graph.ui.legend.Legend
 import com.modernunit.graph.ui.model.GraphData
 import com.modernunit.graph.ui.theme.GraphsDashboardTheme
 import com.modernunit.graph.ui.util.configureAnimation
@@ -102,6 +105,9 @@ fun ArcChart(
                 }
             }
         }
+
+        Spacer(modifier = Modifier.height(36.dp))
+        Legend(chartData = chartData)
     }
 }
 
